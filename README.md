@@ -1,111 +1,111 @@
 # ⚽ NLP Football Match Analysis Pipeline
 
-Futbol maçı videolarından otomatik analiz yapan bir NLP (Doğal Dil İşleme) boru hattı. Video dosyalarından ses çıkarır, konuşmayı metne dönüştürür ve çeşitli NLP teknikleri ile analiz eder.
+An NLP (Natural Language Processing) pipeline that automatically analyzes football match videos. It extracts audio from video files, converts speech to text, and applies various NLP techniques for analysis.
 
-## 🎯 Özellikler
+## 🎯 Features
 
-- **Ses Çıkarma**: Video dosyalarından ses çıkarma (ffmpeg)
-- **Transkripsiyon**: OpenAI Whisper ile ses→metin dönüşümü
-- **Metin Ön İşleme**: Tokenizasyon, lemmatizasyon, gürültü temizleme (spaCy)
-- **Bilgi Çıkarma**: Oyuncu, takım, stadyum, hakem tespiti (NER)
-- **Olay Algılama**: Gol, faul, kart, ofsayt, sakatlık tespiti
-- **Duygu Analizi**: Heyecan seviyesi ve atmosfer analizi
-- **Ses Analizi**: Volume seviyesi ile heyecan korelasyonu
-- **Özet Oluşturma**: BART modeli ile abstractive summarization
-- **Görselleştirme**: Heyecan grafikleri, olay zaman çizelgeleri
+- **Audio Extraction**: Extract audio from video files (ffmpeg)
+- **Transcription**: Speech-to-text conversion using OpenAI Whisper
+- **Text Preprocessing**: Tokenization, lemmatization, noise removal (spaCy)
+- **Information Extraction**: Player, team, stadium, referee detection (NER)
+- **Event Detection**: Goal, foul, card, offside, injury detection
+- **Sentiment Analysis**: Excitement level and atmosphere analysis
+- **Audio Analysis**: Volume level correlation with excitement
+- **Summarization**: Abstractive summarization using BART model
+- **Visualization**: Excitement graphs, event timelines
 
-## 📁 Proje Yapısı
+## 📁 Project Structure
 
 ```
 nlpfootbal/
-├── main.py                    # Ana orkestrasyon
+├── main.py                    # Main orchestration
 ├── extract_audio.py           # Video → WAV
-├── transcribe_audio.py        # Ses → Metin (Whisper)
-├── pre_process.py             # Metin ön işleme (spaCy)
-├── information_extraction.py  # NER + Olay algılama
-├── sentiment_analyzer.py      # Duygu/heyecan analizi
-├── audio_volume.py            # Ses seviyesi analizi
-├── summarization.py           # Maç özeti (BART)
-├── insights.py                # Görselleştirme ve raporlama
-├── outputs/                   # Analiz çıktıları
-└── requirements.txt           # Python bağımlılıkları
+├── transcribe_audio.py        # Audio → Text (Whisper)
+├── pre_process.py             # Text preprocessing (spaCy)
+├── information_extraction.py  # NER + Event detection
+├── sentiment_analyzer.py      # Sentiment/excitement analysis
+├── audio_volume.py            # Audio volume analysis
+├── summarization.py           # Match summary (BART)
+├── insights.py                # Visualization and reporting
+├── outputs/                   # Analysis outputs
+└── requirements.txt           # Python dependencies
 ```
 
-## 🚀 Kurulum
+## 🚀 Installation
 
-### 1. Bağımlılıkları Yükleyin
+### 1. Install Dependencies
 
 ```bash
-# Virtual environment oluştur
+# Create virtual environment
 python -m venv venv
 source venv/bin/activate  # Linux/Mac
 # venv\Scripts\activate   # Windows
 
-# Python paketlerini yükle
+# Install Python packages
 pip install -r requirements.txt
 
-# spaCy modelini indir
+# Download spaCy model
 python -m spacy download en_core_web_sm
 ```
 
-### 2. Sistem Bağımlılıkları
+### 2. System Dependencies
 
 ```bash
-# ffmpeg kurulumu (Ubuntu/Debian)
+# ffmpeg installation (Ubuntu/Debian)
 sudo apt install ffmpeg
 
 # macOS
 brew install ffmpeg
 ```
 
-## 🎮 Kullanım
+## 🎮 Usage
 
-### Tek Maç Analizi
+### Single Match Analysis
 
 ```python
 from main import analyze_match
 
-video_path = "maç_videosu.mp4"
+video_path = "match_video.mp4"
 output_dir = analyze_match(video_path)
-print(f"Sonuçlar: {output_dir}")
+print(f"Results: {output_dir}")
 ```
 
-### Komut Satırından
+### Command Line
 
 ```bash
 python main.py
 ```
 
-> `main.py` dosyasındaki `video` değişkenini analiz etmek istediğiniz video yolu ile değiştirin.
+> Update the `video` variable in `main.py` with the path to the video you want to analyze.
 
-## 📊 Çıktılar
+## 📊 Outputs
 
-Her maç için ayrı bir klasör oluşturulur:
+A separate folder is created for each match:
 
-| Dosya | Açıklama |
-|-------|----------|
-| `*_transcript.txt` | Ham transkript |
-| `*_preprocessed.txt` | Temizlenmiş metin |
-| `*_events.json` | Tespit edilen olaylar |
-| `*_summary.txt` | Yapılandırılmış maç özeti |
-| `*_excitement_graph.png` | Heyecan grafiği |
-| `*_event_timeline.png` | Olay zaman çizelgesi |
-| `*_match_insights.json` | Detaylı istatistikler |
-| `*_match_events.csv` | CSV formatında olaylar |
+| File | Description |
+|------|-------------|
+| `*_transcript.txt` | Raw transcript |
+| `*_preprocessed.txt` | Cleaned text |
+| `*_events.json` | Detected events |
+| `*_summary.txt` | Structured match summary |
+| `*_excitement_graph.png` | Excitement graph |
+| `*_event_timeline.png` | Event timeline |
+| `*_match_insights.json` | Detailed statistics |
+| `*_match_events.csv` | Events in CSV format |
 
-## 🏈 Tespit Edilen Olaylar
+## 🏈 Detected Events
 
-| Olay | Pattern Örnekleri |
-|------|-------------------|
-| ⚽ Gol | "scores!", "it's a goal", "1-0" |
-| 🟨 Sarı Kart | "yellow card", "booked" |
-| 🟥 Kırmızı Kart | "red card", "sent off" |
-| 📐 Ofsayt | "offside", "flag is up" |
-| 🔄 Değişiklik | "substitution", "brings on" |
-| 🩹 Sakatlık | "injury", "stretcher" |
-| 🦵 Faul | "foul", "tackled" |
+| Event | Pattern Examples |
+|-------|------------------|
+| ⚽ Goal | "scores!", "it's a goal", "1-0" |
+| 🟨 Yellow Card | "yellow card", "booked" |
+| 🟥 Red Card | "red card", "sent off" |
+| 📐 Offside | "offside", "flag is up" |
+| 🔄 Substitution | "substitution", "brings on" |
+| 🩹 Injury | "injury", "stretcher" |
+| 🦵 Foul | "foul", "tackled" |
 
-## 🔧 Pipeline Akışı
+## 🔧 Pipeline Flow
 
 ```
 Video (.mp4)
@@ -125,14 +125,14 @@ Video (.mp4)
 [insights] → Graphs & Reports
 ```
 
-## 📦 Teknolojiler
+## 📦 Technologies
 
-- **spaCy** - NER ve dilbilimsel analiz
-- **OpenAI Whisper** - Ses tanıma
-- **Transformers (BART)** - Özet oluşturma
-- **SciPy/NumPy** - Ses analizi
-- **Matplotlib** - Görselleştirme
+- **spaCy** - NER and linguistic analysis
+- **OpenAI Whisper** - Speech recognition
+- **Transformers (BART)** - Summarization
+- **SciPy/NumPy** - Audio analysis
+- **Matplotlib** - Visualization
 
-## 📝 Lisans
+## 📝 License
 
 MIT License
