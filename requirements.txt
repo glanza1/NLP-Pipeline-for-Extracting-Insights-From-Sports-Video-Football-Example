@@ -1,0 +1,23 @@
+# --- NLP & Text Processing ---
+spacy>=3.5.0
+openai-whisper>=20231117
+transformers>=4.30.0
+
+# --- Audio Processing ---
+scipy>=1.10.0
+numpy>=1.24.0
+
+# --- Visualization ---
+matplotlib>=3.7.0
+
+# --- Deep Learning Backend ---
+torch>=2.0.0
+
+# --- Note: System Dependencies ---
+# ffmpeg must be installed on your system:
+#   Ubuntu/Debian: sudo apt install ffmpeg
+#   macOS: brew install ffmpeg
+#   Windows: download from https://ffmpeg.org/
+
+# --- Post-install: Download spaCy model ---
+# python -m spacy download en_core_web_sm
